@@ -7,6 +7,7 @@ from django.template.loader import render_to_string
 from django.shortcuts import resolve_url
 
 
+# User 를 Custom 하기 위해서 AbstractUser 을 상속
 class User(AbstractUser):
     class GenderChoices(models.TextChoices):
         MALE = "M", "남성"
@@ -34,7 +35,9 @@ class User(AbstractUser):
         else:
             return resolve_url("pydenticon_image", self.username)
 
+    # 회원 가입 후 email 보내는 helper method
     def send_welcome_email(self):
+        # templates 를 통한 메시지 발송
         subject = render_to_string("accounts/welcome_email_subject.txt", {
             "user": self,
         })

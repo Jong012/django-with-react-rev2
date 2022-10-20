@@ -5,17 +5,22 @@ from django.contrib.auth.forms import (
 from .models import User
 
 
+# User 를 회원가입하는 Form 을 상속받음
 class SignupForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # required 를 True 로 변환
         self.fields['email'].required = True
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
 
+
+    # Meta 속성을 상속받음
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ['username', 'email', 'first_name', 'last_name']
 
+    # email 중복 검사
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if email:
